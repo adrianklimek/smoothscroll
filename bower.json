@@ -1,0 +1,24 @@
+{
+  "name": "smoothscrolljs",
+  "description": "Smooth Scroll - animate scrolling",
+  "main": "dist/smoothScroll.js",
+  "authors": [
+    "Adrian Klimek"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "scroll",
+    "scrolling",
+    "smooth",
+    "animation",
+    "animate"
+  ],
+  "homepage": "github.com/adrianklimek/smoothscroll",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

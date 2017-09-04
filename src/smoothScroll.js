@@ -31,9 +31,9 @@ function animate(start, end, elapsed, duration, easing) {
 /**
  * Animate scrolling 
  * 
- * @param {object, number} destination The number or the element that is the destination of scrolling 
+ * @param {object, number} destination The number or the element that is the destination of scrolling animation
  * @param {object}         opts        The array that extends default configuration 
- * @param {function}       callback    The function that will be called after animation is done
+ * @param {function}       callback    The function that is called when animation is done
  */
 export function smoothScroll(destination, opts, callback) {
     const options = {...defaults, ...opts} // Extend options with defaults 

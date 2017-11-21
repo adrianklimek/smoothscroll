@@ -88,7 +88,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-exports.smoothScroll = smoothScroll;
+exports.default = smoothScroll;
 
 var _getOffset = __webpack_require__(1);
 
@@ -111,7 +111,7 @@ var defaults = {
 
     /**
      * Get current value of an animation
-     * 
+     *
      * @param   {number}   start    The animation start value
      * @param   {number}   end      The animation end value
      * @param   {number}   elapsed  The animation elapsed time
@@ -127,14 +127,14 @@ var defaults = {
 }
 
 /**
- * Animate scrolling 
- * 
- * @param {object, number} destination The number or the element that is the destination of scrolling 
- * @param {object}         opts        The array that extends default configuration 
- * @param {function}       callback    The function that will be called after animation is done
+ * Animate scrolling
+ *
+ * @param {object, number} destination The number or the element that is the destination of scrolling animation
+ * @param {object}         opts        The array that extends default configuration
+ * @param {function}       callback    The function that is called when animation is done
  */
 function smoothScroll(destination, opts, callback) {
-    var options = _extends({}, defaults, opts); // Extend options with defaults 
+    var options = _extends({}, defaults, opts); // Extend options with defaults
 
     var start = 0; // Actual scroll position that is used as the begin of a animation
 
@@ -143,7 +143,7 @@ function smoothScroll(destination, opts, callback) {
         destination = (0, _getOffset2.default)(destination, options.context);
     }
 
-    // Get correct animation start position 
+    // Get correct animation start position
     if (options.orientation === 'horizontal') {
         destination = destination.left || destination;
         start = options.context.pageXOffset || options.context.scrollLeft || 0;
@@ -161,7 +161,7 @@ function smoothScroll(destination, opts, callback) {
 
     /**
      * Handle scroll animation
-     * 
+     *
      * @param  {object} args The array with animate parameters
      */
     var animateScroll = function animateScroll(args) {
@@ -262,5 +262,5 @@ var easings = exports.easings = {
 };
 
 /***/ })
-/******/ ]);
+/******/ ])["default"];
 });

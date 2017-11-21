@@ -7,11 +7,12 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         libraryTarget: 'umd',
-        filename: 'smoothScroll.min.js' 
+        libraryExport: 'default',
+        filename: 'smoothScroll.min.js'
     },
     devtool: 'source-map',
     module: {
-        loaders: [{ 
+        loaders: [{
             exclude: /(node_modules|bower_components)/,
             loader: 'babel-loader'
         }]

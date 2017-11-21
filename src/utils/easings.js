@@ -1,4 +1,3 @@
-// Basic easing functions 
 export const easings = {
     linear: (t) => t,
     easeIn: (t) => t * t * t,

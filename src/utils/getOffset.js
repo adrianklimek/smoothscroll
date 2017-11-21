@@ -1,9 +1,9 @@
 /**
  * Get offset of an element
  *
- * @param  {object} element The element that offset will be returned
- * @param  {object} context One of the parents of the element (if it isn't declared returns absolute offset)
- * @return {object}         The array with top and left offset
+ * @param   {HTMLelement} element The element that offset will be returned
+ * @param   {HTMLelement} context One of the parents of the element (if it isn't declared returns absolute offset)
+ * @returns {Array}               The array with top and left offset
  */
 export default function getOffset(element, context) {
     let top = 0,

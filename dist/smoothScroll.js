@@ -112,12 +112,12 @@ var defaults = {
     /**
      * Get current value of an animation
      *
-     * @param   {number}   start    The animation start value
-     * @param   {number}   end      The animation end value
-     * @param   {number}   elapsed  The animation elapsed time
-     * @param   {number}   duration The animation duration
-     * @param   {function} easing   The easing function
-     * @return  {number}            The animation current value
+     * @param   {Number}   start    The animation start value
+     * @param   {Number}   end      The animation end value
+     * @param   {Number}   elapsed  The animation elapsed time
+     * @param   {Number}   duration The animation duration
+     * @param   {Function} easing   The easing function
+     * @return  {Number}            The animation current value
      */
 };function animate(start, end, elapsed, duration, easing) {
     if (elapsed > duration) {
@@ -129,14 +129,14 @@ var defaults = {
 /**
  * Animate scrolling
  *
- * @param {object, number} destination The number or the element that is the destination of scrolling animation
- * @param {object}         opts        The array that extends default configuration
- * @param {function}       callback    The function that is called when animation is done
+ * @param {Object, Number} destination The number or the element that is the destination of scrolling animation
+ * @param {Object}         opts        The array that extends default configuration
+ * @param {Function}       callback    The function that is called when animation is done
  */
 function smoothScroll(destination, opts, callback) {
-    var options = _extends({}, defaults, opts); // Extend options with defaults
+    var options = _extends({}, defaults, opts);
 
-    var start = 0; // Actual scroll position that is used as the begin of a animation
+    var start = 0;
 
     // Get offset of the element if the destination is an object
     if ((typeof destination === 'undefined' ? 'undefined' : _typeof(destination)) === 'object') {
@@ -157,12 +157,12 @@ function smoothScroll(destination, opts, callback) {
         options.easing = _easings.easings[options.easing] || _easings.easings[defaults.easing]; // If there is no easing with given name get default one
     }
 
-    destination += options.offset; // Add offset to the destination
+    destination += options.offset;
 
     /**
      * Handle scroll animation
      *
-     * @param  {object} args The array with animate parameters
+     * @param  {Array} args The array with animate parameters
      */
     var animateScroll = function animateScroll(args) {
         if (options.context != window) {
@@ -180,7 +180,7 @@ function smoothScroll(destination, opts, callback) {
         }
     };
 
-    var time = Date.now(); // Set initial time
+    var time = Date.now();
 
     /** Function that is executed on every animation step */
     var animationFrame = function animationFrame() {
@@ -198,7 +198,7 @@ function smoothScroll(destination, opts, callback) {
             requestAnimationFrame(animationFrame);
         }
     };
-    animationFrame(); // Initialize animation
+    animationFrame();
 }
 
 /***/ }),
@@ -215,9 +215,9 @@ exports.default = getOffset;
 /**
  * Get offset of an element
  *
- * @param  {object} element The element that offset will be returned
- * @param  {object} context One of the parents of the element (if it isn't declared returns absolute offset)
- * @return {object}         The array with top and left offset
+ * @param   {HTMLelement} element The element that offset will be returned
+ * @param   {HTMLelement} context One of the parents of the element (if it isn't declared returns absolute offset)
+ * @returns {Array}               The array with top and left offset
  */
 function getOffset(element, context) {
     var top = 0,
@@ -245,7 +245,6 @@ function getOffset(element, context) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-// Basic easing functions 
 var easings = exports.easings = {
     linear: function linear(t) {
         return t;

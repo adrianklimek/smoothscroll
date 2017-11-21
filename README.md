@@ -20,7 +20,7 @@ yarn add smoothscrolljs
 
 ## Usage
 ```
-import {smoothScroll} from 'smoothscrolljs'
+import smoothScroll from 'smoothscrolljs'
 
 const destinationElement = document.querysSelector('.element')
 // smoothScroll(destination, opts, callback)

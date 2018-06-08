@@ -27,7 +27,7 @@ const destinationElement = document.querysSelector('.element')
 smoothScroll(destinationElement)
 ```
 
-### Paramaters
+### Parameters
 | Name | Description | Type |
 | ---- | ----------- | ---- |
 | destination | The number or the element that is the destination of scrolling animation | object, number |

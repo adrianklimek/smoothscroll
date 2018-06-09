@@ -81,125 +81,97 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _animate = __webpack_require__(1);
 
-exports.default = smoothScroll;
+var _animate2 = _interopRequireDefault(_animate);
 
-var _getOffset = __webpack_require__(1);
+var _getOffset = __webpack_require__(2);
 
 var _getOffset2 = _interopRequireDefault(_getOffset);
 
-var _easings = __webpack_require__(2);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var getScrollPosition = function getScrollPosition(el) {
+  return {
+    top: el.pageYOffset || el.scrollTop || 0,
+    left: el.pageXOffset || el.scrollLeft || 0
+  };
+};
 
-// Default options
-var defaults = {
-    duration: 600, // Number
-    easing: 'easeInOut', // String or function
-    context: window, // Object
-    orientation: 'vertical', // String
-    offset: 0 // Number
+var setScrollPosition = function setScrollPosition(el, _ref) {
+  var top = _ref.top,
+      left = _ref.left;
 
-
-    /**
-     * Get current value of an animation
-     *
-     * @param   {Number}   start    The animation start value
-     * @param   {Number}   end      The animation end value
-     * @param   {Number}   elapsed  The animation elapsed time
-     * @param   {Number}   duration The animation duration
-     * @param   {Function} easing   The easing function
-     * @return  {Number}            The animation current value
-     */
-};function animate(start, end, elapsed, duration, easing) {
-    if (elapsed > duration) {
-        return end;
-    }
-    return start + (end - start) * easing(elapsed / duration);
-}
+  if (el === window) {
+    el.scrollTo(top, left);
+  } else {
+    /* eslint-disable */
+    el.scrollTop = top;
+    el.scrollLeft = left;
+    /* eslint-enable */
+  }
+};
 
 /**
- * Animate scrolling
+ * Animates scroll
  *
- * @param {Object, Number} destination The number or the element that is the destination of scrolling animation
- * @param {Object}         opts        The array that extends default configuration
- * @param {Function}       callback    The function that is called when animation is done
+ * @param {HTMLElement, Number} destination position or a DOM element
+ * @param {Object} opts
+ * @param {Number} opts.duration
+ * @param {Function, String} opts.easing function or name of one of predefined easing function
+ * @param {HTMLElement} opts.context element to apply scroll to
+ * @param {String} opts.orientation scroll orientation ('horizontal' or 'vertical')
+ * @param {Number} opts.offset scroll offset in px
+ * @param {Function} callback function that is called on animation end
  */
-function smoothScroll(destination, opts, callback) {
-    var options = _extends({}, defaults, opts);
 
-    var start = 0;
+var smoothScroll = function smoothScroll(destination, opts, callback) {
+  var _opts$duration = opts.duration,
+      duration = _opts$duration === undefined ? 600 : _opts$duration,
+      _opts$easing = opts.easing,
+      easing = _opts$easing === undefined ? 'easeInOut' : _opts$easing,
+      _opts$context = opts.context,
+      context = _opts$context === undefined ? window : _opts$context,
+      _opts$orientation = opts.orientation,
+      orientation = _opts$orientation === undefined ? 'vertical' : _opts$orientation,
+      _opts$offset = opts.offset,
+      offset = _opts$offset === undefined ? 0 : _opts$offset;
 
-    // Get offset of the element if the destination is an object
-    if ((typeof destination === 'undefined' ? 'undefined' : _typeof(destination)) === 'object') {
-        destination = (0, _getOffset2.default)(destination, options.context);
-    }
 
-    // Get correct animation start position
-    if (options.orientation === 'horizontal') {
-        destination = destination.left || destination;
-        start = options.context.pageXOffset || options.context.scrollLeft || 0;
-    } else {
-        destination = destination.top || destination;
-        start = options.context.pageYOffset || options.context.scrollTop || 0;
-    }
+  var startPosition = getScrollPosition(context);
 
-    // If easing argument is a string get it from easing array
-    if (typeof options.easing === 'string') {
-        options.easing = _easings.easings[options.easing] || _easings.easings[defaults.easing]; // If there is no easing with given name get default one
-    }
+  // Keep same data structure for object and number value of `destination`
+  var destinationPosition = (typeof destination === 'undefined' ? 'undefined' : _typeof(destination)) === 'object' ? (0, _getOffset2.default)(destination) : { top: destination, left: destination };
 
-    destination += options.offset;
+  var endPosition = orientation === 'horizontal' ? destinationPosition.left + offset : destinationPosition.top + offset;
 
-    /**
-     * Handle scroll animation
-     *
-     * @param  {Array} args The array with animate parameters
-     */
-    var animateScroll = function animateScroll(args) {
-        if (options.context != window) {
-            if (options.orientation == 'horizontal') {
-                options.context.scrollLeft = animate.apply(undefined, _toConsumableArray(args));
-            } else {
-                options.context.scrollTop = animate.apply(undefined, _toConsumableArray(args));
-            }
-        } else {
-            if (options.orientation == 'horizontal') {
-                window.scrollTo(animate.apply(undefined, _toConsumableArray(args)), window.pageYOffset);
-            } else {
-                window.scrollTo(window.pageXOffset, animate.apply(undefined, _toConsumableArray(args)));
-            }
-        }
-    };
+  var updateScrollPosition = function updateScrollPosition(value) {
+    setScrollPosition(context, {
+      top: orientation === 'horizontal' ? destinationPosition.top : value,
+      left: orientation === 'horizontal' ? value : destinationPosition.left
+    });
+  };
 
-    var time = Date.now();
+  var animateScroll = function animateScroll(currentValue, progress) {
+    updateScrollPosition(currentValue);
+    if (progress === 1) callback(destination);
+  };
 
-    /** Function that is executed on every animation step */
-    var animationFrame = function animationFrame() {
-        var elapsed = Date.now() - time;
+  (0, _animate2.default)({
+    startValue: startPosition,
+    endValue: endPosition,
+    duration: duration,
+    easing: easing,
+    callback: animateScroll
+  });
+};
 
-        var animationArguments = [start, destination, elapsed, options.duration, options.easing];
-
-        animateScroll(animationArguments);
-
-        if (elapsed > options.duration) {
-            if (typeof callback == 'function') {
-                callback();
-            }
-        } else {
-            requestAnimationFrame(animationFrame);
-        }
-    };
-    animationFrame();
-}
+exports.default = smoothScroll;
 
 /***/ }),
 /* 1 */
@@ -209,31 +181,62 @@ function smoothScroll(destination, opts, callback) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.default = getOffset;
-/**
- * Get offset of an element
- *
- * @param   {HTMLelement} element The element that offset will be returned
- * @param   {HTMLelement} context One of the parents of the element (if it isn't declared returns absolute offset)
- * @returns {Array}               The array with top and left offset
- */
-function getOffset(element, context) {
-    var top = 0,
-        left = 0;
+/* eslint-disable */
+var easings = {
+  linear: function linear(t) {
+    return t;
+  },
+  easeIn: function easeIn(t) {
+    return t * t * t;
+  },
+  easeOut: function easeOut(t) {
+    return --t * t * t + 1;
+  },
+  easeInOut: function easeInOut(t) {
+    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  }
+  /* eslint-enable */
 
-    do {
-        top += element.offsetTop || 0;
-        left += element.offsetLeft || 0;
-        element = element.offsetParent;
-    } while (element && element !== context);
+  /**
+  * Animates number values
+  *
+  * @param {Object} opts
+  * @param {Number} opts.startValue
+  * @param {Number} opts.endValue
+  * @param {Number} opts.duration
+  * @param {Function, String} opts.easing an easing function or a name of one of the predefined ones
+  * @param {Function} opts.callback a function that is called on every animation frame
+  * @returns {Boolean}
+  */
+};var animate = function animate(_ref) {
+  var startValue = _ref.startValue,
+      endValue = _ref.endValue,
+      duration = _ref.duration,
+      easing = _ref.easing,
+      callback = _ref.callback;
 
-    return {
-        top: top,
-        left: left
-    };
-}
+  if (typeof callback !== 'function') return false;
+
+  var easingFunc = typeof easing !== 'function' ? easings[easing] || easings.easeInOut : easing;
+
+  var animationFrame = function animationFrame(initialTime) {
+    var elapsedTime = Date.now() - initialTime;
+    var isFinal = elapsedTime > duration;
+    var animationProgress = isFinal ? 1 : elapsedTime / duration;
+    var currentValue = isFinal ? endValue : startValue + (endValue - startValue) * easingFunc(animationProgress);
+
+    // A final `animationProgress` is 1 so it can be used to trigger complete callback
+    callback(currentValue, animationProgress);
+    if (elapsedTime <= duration) requestAnimationFrame(animationFrame.bind(null, initialTime));
+  };
+  animationFrame(Date.now());
+
+  return true;
+};
+
+exports.default = animate;
 
 /***/ }),
 /* 2 */
@@ -243,22 +246,35 @@ function getOffset(element, context) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-var easings = exports.easings = {
-    linear: function linear(t) {
-        return t;
-    },
-    easeIn: function easeIn(t) {
-        return t * t * t;
-    },
-    easeOut: function easeOut(t) {
-        return --t * t * t + 1;
-    },
-    easeInOut: function easeInOut(t) {
-        return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-    }
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+/**
+ * Gets offset of an element
+ *
+ * @param {HTMLelement} element
+ * @returns {Object} top and left offset
+ */
+var getOffset = function getOffset(element) {
+  var offset = function offset(_ref, _ref2) {
+    var top = _ref.top,
+        left = _ref.left;
+    var _ref2$offsetTop = _ref2.offsetTop,
+        offsetTop = _ref2$offsetTop === undefined ? 0 : _ref2$offsetTop,
+        _ref2$offsetLeft = _ref2.offsetLeft,
+        offsetLeft = _ref2$offsetLeft === undefined ? 0 : _ref2$offsetLeft,
+        offsetParent = _ref2.offsetParent;
+
+    var output = { top: top + offsetTop, left: left + offsetLeft };
+    return offsetParent ? offset(_extends({}, output), offsetParent) : output;
+  };
+
+  return offset({ top: 0, left: 0 }, element);
 };
+
+exports.default = getOffset;
 
 /***/ })
 /******/ ])["default"];

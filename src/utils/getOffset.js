@@ -1,22 +1,16 @@
 /**
- * Get offset of an element
+ * Gets offset of an element
  *
- * @param   {HTMLelement} element The element that offset will be returned
- * @param   {HTMLelement} context One of the parents of the element (if it isn't declared returns absolute offset)
- * @returns {Array}               The array with top and left offset
+ * @param {HTMLelement} element
+ * @returns {Object} top and left offset
  */
-export default function getOffset(element, context) {
-    let top = 0,
-        left = 0
+const getOffset = (element) => {
+  const offset = ({ top, left }, { offsetTop = 0, offsetLeft = 0, offsetParent }) => {
+    const output = { top: top + offsetTop, left: left + offsetLeft }
+    return offsetParent ? offset({ ...output }, offsetParent) : output
+  }
 
-    do {
-        top += element.offsetTop  || 0
-        left += element.offsetLeft || 0
-        element = element.offsetParent
-    } while(element && element !== context)
-
-    return {
-        top,
-        left
-    }
+  return offset({ top: 0, left: 0 }, element)
 }
+
+export default getOffset

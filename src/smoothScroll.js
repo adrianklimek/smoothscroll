@@ -1,104 +1,74 @@
+import animate from './utils/animate'
 import getOffset from './utils/getOffset'
-import {easings} from './utils/easings'
 
+const getScrollPosition = el => ({
+  top: el.pageYOffset || el.scrollTop || 0,
+  left: el.pageXOffset || el.scrollLeft || 0,
+})
 
-// Default options
-const defaults = {
-    duration: 600,           // Number
-    easing: 'easeInOut',     // String or function
-    context: window,         // Object
-    orientation: 'vertical', // String
-    offset: 0                // Number
+const setScrollPosition = (el, { top, left }) => {
+  if (el === window) {
+    el.scrollTo(top, left)
+  } else {
+    /* eslint-disable */
+    el.scrollTop = top
+    el.scrollLeft = left
+    /* eslint-enable */
+  }
 }
 
 /**
- * Get current value of an animation
+ * Animates scroll
  *
- * @param   {Number}   start    The animation start value
- * @param   {Number}   end      The animation end value
- * @param   {Number}   elapsed  The animation elapsed time
- * @param   {Number}   duration The animation duration
- * @param   {Function} easing   The easing function
- * @return  {Number}            The animation current value
+ * @param {HTMLElement, Number} destination position or a DOM element
+ * @param {Object} opts
+ * @param {Number} opts.duration
+ * @param {Function, String} opts.easing function or name of one of predefined easing function
+ * @param {HTMLElement} opts.context element to apply scroll to
+ * @param {String} opts.orientation scroll orientation ('horizontal' or 'vertical')
+ * @param {Number} opts.offset scroll offset in px
+ * @param {Function} callback function that is called on animation end
  */
-function animate(start, end, elapsed, duration, easing) {
-    if (elapsed > duration) {
-        return end
-    }
-    return start + (end - start) * easing(elapsed / duration)
+
+const smoothScroll = (destination, opts, callback) => {
+  const {
+    duration = 600,
+    easing = 'easeInOut',
+    context = window,
+    orientation = 'vertical',
+    offset = 0,
+  } = opts
+
+  const startPosition = getScrollPosition(context)
+
+  // Keep same data structure for object and number value of `destination`
+  const destinationPosition = typeof destination === 'object'
+    ? getOffset(destination)
+    : { top: destination, left: destination }
+
+  const endPosition = orientation === 'horizontal'
+    ? destinationPosition.left + offset
+    : destinationPosition.top + offset
+
+  const updateScrollPosition = (value) => {
+    setScrollPosition(context, {
+      top: orientation === 'horizontal' ? destinationPosition.top : value,
+      left: orientation === 'horizontal' ? value : destinationPosition.left,
+    })
+  }
+
+  const animateScroll = (currentValue, progress) => {
+    updateScrollPosition(currentValue)
+    if (progress === 1) callback(destination)
+  }
+
+  animate({
+    startValue: startPosition,
+    endValue: endPosition,
+    duration,
+    easing,
+    callback: animateScroll,
+  })
 }
 
-/**
- * Animate scrolling
- *
- * @param {Object, Number} destination The number or the element that is the destination of scrolling animation
- * @param {Object}         opts        The array that extends default configuration
- * @param {Function}       callback    The function that is called when animation is done
- */
-export default function smoothScroll(destination, opts, callback) {
-    const options = { ...defaults, ...opts }
-
-    let start = 0
-
-    // Get offset of the element if the destination is an object
-    if (typeof destination === 'object') {
-        destination = getOffset(destination, options.context)
-    }
-
-    // Get correct animation start position
-    if (options.orientation === 'horizontal') {
-        destination = destination.left || destination
-        start = options.context.pageXOffset || options.context.scrollLeft || 0
-    } else {
-        destination = destination.top || destination
-        start = options.context.pageYOffset || options.context.scrollTop || 0
-    }
-
-    // If easing argument is a string get it from easing array
-    if (typeof options.easing === 'string') {
-        options.easing = easings[options.easing] || easings[defaults.easing] // If there is no easing with given name get default one
-    }
-
-    destination += options.offset
-
-    /**
-     * Handle scroll animation
-     *
-     * @param  {Array} args The array with animate parameters
-     */
-    const animateScroll = (args) => {
-        if (options.context != window) {
-            if (options.orientation == 'horizontal') {
-                options.context.scrollLeft = animate(...args)
-            } else {
-                options.context.scrollTop = animate(...args)
-            }
-        } else {
-            if (options.orientation == 'horizontal') {
-                window.scrollTo(animate(...args), window.pageYOffset)
-            } else {
-                window.scrollTo(window.pageXOffset, animate(...args))
-            }
-        }
-    }
-
-    const time = Date.now()
-
-    /** Function that is executed on every animation step */
-    const animationFrame = () => {
-        const elapsed = Date.now() - time
-
-        const animationArguments = [start, destination, elapsed, options.duration, options.easing]
-
-        animateScroll(animationArguments)
-
-        if (elapsed > options.duration) {
-            if (typeof callback == 'function') {
-                callback()
-            }
-        } else {
-            requestAnimationFrame(animationFrame)
-        }
-    }
-    animationFrame()
-}
+export default smoothScroll

@@ -8,7 +8,7 @@ const getScrollPosition = el => ({
 
 const setScrollPosition = (el, { top, left }) => {
   if (el === window) {
-    el.scrollTo(top, left)
+    el.scrollTo(left, top)
   } else {
     /* eslint-disable */
     el.scrollTop = top
@@ -30,7 +30,7 @@ const setScrollPosition = (el, { top, left }) => {
  * @param {Function} callback function that is called on animation end
  */
 
-const smoothScroll = (destination, opts, callback) => {
+const smoothScroll = (destination, opts = {}, callback) => {
   const {
     duration = 600,
     easing = 'easeInOut',
@@ -46,25 +46,24 @@ const smoothScroll = (destination, opts, callback) => {
     ? getOffset(destination)
     : { top: destination, left: destination }
 
-  const endPosition = orientation === 'horizontal'
-    ? destinationPosition.left + offset
-    : destinationPosition.top + offset
+  const applyOrientation = ({ top, left }) =>
+    orientation === 'horizontal' ? left : top
 
   const updateScrollPosition = (value) => {
     setScrollPosition(context, {
-      top: orientation === 'horizontal' ? destinationPosition.top : value,
-      left: orientation === 'horizontal' ? value : destinationPosition.left,
+      top: orientation === 'horizontal' ? startPosition.top : value,
+      left: orientation === 'horizontal' ? value : startPosition.left,
     })
   }
 
   const animateScroll = (currentValue, progress) => {
     updateScrollPosition(currentValue)
-    if (progress === 1) callback(destination)
+    if (progress === 1 && typeof callback === 'function') callback(destination)
   }
 
   animate({
-    startValue: startPosition,
-    endValue: endPosition,
+    startValue: applyOrientation(startPosition),
+    endValue: applyOrientation(destinationPosition),
     duration,
     easing,
     callback: animateScroll,

@@ -3,8 +3,12 @@
   "version": "0.1.1",
   "description": "Smooth Scroll - animate scrolling",
   "main": "dist/smoothScroll.js",
+  "repository": "github:adrianklimek/smoothscroll",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack",
+    "lint": "eslint ./src",
+    "lint-fix": "eslint ./src --fix"
   },
   "author": "Adrian Klimek",
   "license": "MIT",
@@ -17,5 +21,12 @@
     "uglifyjs-webpack-plugin": "^0.4.6",
     "unminified-webpack-plugin": "^1.2.0",
     "webpack": "^3.4.1"
+  },
+  "dependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jest": "^21.17.0"
   }
 }

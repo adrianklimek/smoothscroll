@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true,
+    "jest/globals": true
+  },
+  "plugins": ["jest"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "extends": "airbnb/base",
+  "parser": "babel-eslint",
+  "rules": {
+    "semi": ["error", "never"],
+    "no-shadow": 0
+  }
+}

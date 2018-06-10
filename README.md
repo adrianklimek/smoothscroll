@@ -1,5 +1,5 @@
 # smoothScroll.js
-A lightweight JavaScript module to animate scrolling.
+A lightweight JavaScript module to animate scrolling
 
 ## Installation
 

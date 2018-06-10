@@ -1,7 +1,7 @@
 {
   "name": "smoothscrolljs",
   "version": "0.1.2",
-  "description": "Smooth Scroll - animate scrolling",
+  "description": "A lightweight JavaScript module to animate scrolling",
   "main": "dist/smoothScroll.min.js",
   "repository": "github:adrianklimek/smoothscroll",
   "scripts": {

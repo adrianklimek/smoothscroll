@@ -1,12 +1,7 @@
 # smoothScroll.js
-Animate scrolling
+A lightweight JavaScript module to animate scrolling.
 
 ## Installation
-
-### Install with bower:
-```
-bower install smoothscrolljs --save
-```
 
 ### Install with npm:
 ```
@@ -22,26 +17,22 @@ yarn add smoothscrolljs
 ```
 import smoothScroll from 'smoothscrolljs'
 
-const destinationElement = document.querysSelector('.element')
-// smoothScroll(destination, opts, callback)
-smoothScroll(destinationElement)
+const destinationEl = document.querySelector('.scroll-to')
+smoothScroll(destinationEl)
 ```
 
 ### Parameters
-| Name | Description | Type |
-| ---- | ----------- | ---- |
-| destination | The number or the element that is the destination of scrolling animation | object, number |
-| opts | The array that extends default configuration | object |
-| callback | The function that is called when animation is done | function | 
+| Name | Description | Type | Default |
+| ---- | ----------- | ---- | ------- |
+| destination | DOM element to scroll to or a position | HTMLElement, Number | - |
+| opts | - | Object | - |
+| opts.duration | - | Number | 600 |
+| opts.easing | function or name of one of predefined easing functions ('linear', 'easeIn', 'easeOut', 'easeInOut') | Function, String | 'easeInOut' |
+| opts.context | an element to apply scroll to | HTMLElement | window |
+| opts.orientation | scroll orientation ('horizontal', 'vertical') | String | 'vertical' |
+| opts.offset | scroll offset in px | Number | 0 |
+| callback | a function that is called on animation end | Function | - | 
 
-### Options
-| Name     | Description       | Type   | Default   |
-| -------- | ----------------- | ------ | --------- |
-| duration | Time in ms that animation is executed for | number | 600 |
-| easing   | The easing function, built-in functions: linear, easeIn, easeOut, easeInOut | function, string | easeInOut |
-| context  | Element that is used for scrolling | object | window |
-| orientation | Scroll orientation can be horizontal or vertical | string | vertical |
-| offset | Offset of scrolling | number | 0 |
 
 ## License
 smoothScroll.js is licensed under [MIT license](https://opensource.org/licenses/MIT).

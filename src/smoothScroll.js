@@ -23,7 +23,7 @@ const setScrollPosition = (el, { top, left }) => {
  * @param {HTMLElement, Number} destination position or a DOM element
  * @param {Object} opts
  * @param {Number} opts.duration
- * @param {Function, String} opts.easing function or name of one of predefined easing function
+ * @param {Function, String} opts.easing function or name of one of predefined easing functions
  * @param {HTMLElement} opts.context element to apply scroll to
  * @param {String} opts.orientation scroll orientation ('horizontal' or 'vertical')
  * @param {Number} opts.offset scroll offset in px

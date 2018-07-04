@@ -63,7 +63,7 @@ const smoothScroll = (destination, opts = {}, callback) => {
 
   animate({
     startValue: applyOrientation(startPosition),
-    endValue: applyOrientation(destinationPosition),
+    endValue: applyOrientation(destinationPosition) + offset,
     duration,
     easing,
     callback: animateScroll,

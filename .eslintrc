@@ -11,6 +11,7 @@
   "parser": "babel-eslint",
   "rules": {
     "semi": ["error", "never"],
-    "no-shadow": 0
+    "no-shadow": 0,
+    "no-confusing-arrow": 0
   }
 }

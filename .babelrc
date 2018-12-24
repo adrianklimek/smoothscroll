@@ -1,12 +1,8 @@
 {
-  presets: [
-    [
-      'env',
-      {
-        modules: false
-      }
-    ],
-    'stage-2'
-  ],
-  plugins: ['external-helpers']
+  "presets": [["@babel/preset-env", { "modules": false }]],
+  "env": {
+    "test": {
+      "presets": [["@babel/preset-env"]]
+    }
+  }
 }

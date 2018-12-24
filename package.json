@@ -1,31 +1,41 @@
 {
   "name": "smoothscrolljs",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "A lightweight JavaScript module to animate scrolling",
-  "main": "dist/smoothScroll.min.js",
-  "repository": "github:adrianklimek/smoothscroll",
+  "main": "dist/smooth-scroll.min.js",
   "scripts": {
     "test": "jest",
-    "build": "rollup --config",
+    "build": "BABEL_ENV=build rollup --config",
     "lint": "eslint ./src",
-    "lint-fix": "eslint ./src --fix"
+    "lint-fix": "eslint ./src --fix",
+    "prepublishOnly": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adrianklimek/smoothscroll.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrianklimek/smoothscroll/issues"
+  },
+  "homepage": "https://github.com/adrianklimek/smoothscroll",
   "author": "Adrian Klimek",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.25.0",
-    "babel-eslint": "^8.2.3",
-    "babel-loader": "^7.1.1",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-jest": "^21.17.0",
-    "jest": "^20.0.4",
-    "rollup": "^0.60.1",
-    "rollup-plugin-babel": "^3.0.4",
-    "rollup-plugin-uglify": "^4.0.0"
-  }
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^22.1.2",
+    "jest": "^23.6.0",
+    "rollup": "^0.68.0",
+    "rollup-plugin-babel": "^4.1.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.0"
+  },
+  "browserslist": "> 1.5%, not dead"
 }

@@ -1,13 +1,16 @@
 import babel from 'rollup-plugin-babel'
+import resolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
 import { uglify } from 'rollup-plugin-uglify'
+import pkg from './package.json'
 
 export default {
-  input: 'src/smoothScroll.js',
+  input: './src/index.js',
   output: {
-    file: 'dist/smoothScroll.min.js',
+    file: pkg.main,
     format: 'umd',
-    name: 'smoothScroll',
-    sourcemap: true
+    name: 'index',
+    sourcemap: true,
   },
-  plugins: [babel(), uglify()]
+  plugins: [resolve(), commonjs(), babel(), uglify()],
 }

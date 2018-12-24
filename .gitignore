@@ -1,5 +1,7 @@
 node_modules
+coverage
 *.sublime-project
 *.sublime-workspace
 *.log
 todo.md
+.idea

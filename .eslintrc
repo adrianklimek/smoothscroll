@@ -3,7 +3,9 @@
     "browser": true,
     "jest/globals": true
   },
-  "plugins": ["jest"],
+  "plugins": [
+    "jest"
+  ],
   "parserOptions": {
     "sourceType": "module"
   },
@@ -11,7 +13,8 @@
   "parser": "babel-eslint",
   "rules": {
     "semi": ["error", "never"],
-    "no-shadow": 0,
-    "no-confusing-arrow": 0
+    "no-confusing-arrow": 0,
+    "no-nested-ternary": 0,
+    "arrow-parens": ["error", "as-needed"]
   }
 }

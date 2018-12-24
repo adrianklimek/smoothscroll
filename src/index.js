@@ -30,7 +30,7 @@ const setScrollPosition = (el, { top, left }) => {
  * @param {Function} callback function that is called on animation end
  */
 
-const smoothScroll = (destination, opts = {}, callback) => {
+const index = (destination, opts = {}, callback) => {
   const {
     duration = 600,
     easing = 'easeInOut',
@@ -70,4 +70,4 @@ const smoothScroll = (destination, opts = {}, callback) => {
   })
 }
 
-export default smoothScroll
+export default index

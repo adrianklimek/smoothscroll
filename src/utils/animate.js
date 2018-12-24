@@ -8,42 +8,38 @@ const easings = {
 /* eslint-enable */
 
 /**
-* Animates number values
-*
-* @param {Object} opts
-* @param {Number} opts.startValue
-* @param {Number} opts.endValue
-* @param {Number} opts.duration
-* @param {Function, String} opts.easing an easing function or a name of one of the predefined ones
-* @param {Function} opts.callback a function that is called on every animation frame
-* @returns {Boolean}
-*/
-const animate = ({
-  startValue,
-  endValue,
-  duration,
-  easing,
-  callback,
-}) => {
-  if (typeof callback !== 'function') return false
+ * Animates number values using requestAnimationFrame
+ *
+ * @param {Object} opts
+ * @param {Number} opts.start
+ * @param {Number} opts.end
+ * @param {Number} opts.duration
+ * @param {Function, String} opts.easing an easing function or a name of one of the predefined ones
+ * @param {Function} opts.onUpdate a function that is called on every animation frame
+ * @param {Function} opts.onComplete a function that is called at the end
+ * @returns {Boolean}
+ */
+const animate = ({ start, end, duration, easing, onUpdate, onComplete }) => {
+  if (typeof onUpdate !== 'function') return false
 
   const easingFunc = typeof easing !== 'function'
     ? easings[easing] || easings.easeInOut
     : easing
 
-  const animationFrame = (initialTime) => {
-    const elapsedTime = Date.now() - initialTime
-    const isFinal = elapsedTime > duration
-    const animationProgress = isFinal ? 1 : elapsedTime / duration
-    const currentValue = isFinal
-      ? endValue
-      : startValue + ((endValue - startValue) * easingFunc(animationProgress))
+  let initialTime = null
 
-    // A final `animationProgress` is 1 so it can be used to trigger complete callback
-    callback(currentValue, animationProgress)
-    if (elapsedTime <= duration) requestAnimationFrame(animationFrame.bind(null, initialTime))
+  const animationFrame = timestamp => {
+    initialTime = initialTime || timestamp
+    const elapsedTime = timestamp - initialTime
+    const animationProgress = Math.min(elapsedTime / duration, 1)
+    const currentValue = start + (end - start) * easingFunc(animationProgress)
+
+    onUpdate(currentValue, animationProgress)
+
+    if (elapsedTime <= duration) window.requestAnimationFrame(animationFrame)
+    else onComplete(currentValue, animationProgress)
   }
-  animationFrame(Date.now())
+  window.requestAnimationFrame(animationFrame)
 
   return true
 }

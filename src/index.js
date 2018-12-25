@@ -56,7 +56,6 @@ function smoothScroll(destination, opts = {}) {
       top: isHorizontal ? startPosition.top : value,
       left: isHorizontal ? value : startPosition.left,
     })
-    console.log(onUpdate)
     onUpdate(value, progress)
   }
 

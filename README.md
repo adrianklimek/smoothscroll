@@ -31,7 +31,8 @@ smoothScroll(destinationEl)
 | opts.context | an element to apply scroll to | HTMLElement | window |
 | opts.orientation | scroll orientation ('horizontal', 'vertical') | String | 'vertical' |
 | opts.offset | scroll offset in px | Number | 0 |
-| callback | a function that is called on animation end | Function | - | 
+| opts.onUpdate | a function that is called on every change | Function | - |
+| opts.onComplete | a function that is called on animation end | Function | - |
 
 
 ## License

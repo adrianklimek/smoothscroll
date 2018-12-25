@@ -1,5 +1,5 @@
 import animate from './utils/animate'
-import getOffset from './utils/getOffset'
+import getOffset from './utils/get-offset'
 
 const getScrollPosition = el => ({
   top: el.pageYOffset || el.scrollTop || 0,
@@ -20,54 +20,54 @@ const setScrollPosition = (el, { top, left }) => {
 /**
  * Animates scroll
  *
- * @param {HTMLElement, Number} destination position or a DOM element
+ * @param {HTMLElement, number} destination position or a DOM element
  * @param {Object} opts
- * @param {Number} opts.duration
- * @param {Function, String} opts.easing function or name of one of predefined easing functions
- * @param {HTMLElement} opts.context element to apply scroll to
- * @param {String} opts.orientation scroll orientation ('horizontal' or 'vertical')
- * @param {Number} opts.offset scroll offset in px
- * @param {Function} callback function that is called on animation end
+ * @param {number} opts.duration
+ * @param {Function, string} opts.easing function or name of one of predefined easing functions
+ * @param {Object} opts.context element to apply scroll to
+ * @param {string} opts.orientation scroll orientation ('horizontal' or 'vertical')
+ * @param {number} opts.offset scroll offset in px
+ * @param {Function} opts.onUpdate function that is called on every change
+ * @param {Function} opts.onComplete function that is called on animation end
  */
-
-const index = (destination, opts = {}, callback) => {
+function smoothScroll(destination, opts = {}) {
   const {
     duration = 600,
     easing = 'easeInOut',
     context = window,
     orientation = 'vertical',
     offset = 0,
+    onUpdate = () => {},
+    onComplete = () => {},
   } = opts
 
   const startPosition = getScrollPosition(context)
 
-  // Keep same data structure for object and number value of `destination`
+  // Keep the same data structure for object and number value of `destination`
   const destinationPosition = typeof destination === 'object'
-    ? getOffset(destination)
+    ? getOffset(destination, context)
     : { top: destination, left: destination }
 
-  const applyOrientation = ({ top, left }) =>
-    orientation === 'horizontal' ? left : top
+  const isHorizontal = orientation === 'horizontal'
+  const applyOrientation = ({ top, left }) => isHorizontal ? left : top
 
-  const updateScrollPosition = (value) => {
+  const updateScrollPosition = (value, progress) => {
     setScrollPosition(context, {
-      top: orientation === 'horizontal' ? startPosition.top : value,
-      left: orientation === 'horizontal' ? value : startPosition.left,
+      top: isHorizontal ? startPosition.top : value,
+      left: isHorizontal ? value : startPosition.left,
     })
-  }
-
-  const animateScroll = (currentValue, progress) => {
-    updateScrollPosition(currentValue)
-    if (progress === 1 && typeof callback === 'function') callback(destination)
+    console.log(onUpdate)
+    onUpdate(value, progress)
   }
 
   animate({
-    startValue: applyOrientation(startPosition),
-    endValue: applyOrientation(destinationPosition) + offset,
+    start: applyOrientation(startPosition),
+    end: applyOrientation(destinationPosition) + offset,
+    onUpdate: updateScrollPosition,
+    onComplete,
     duration,
     easing,
-    callback: animateScroll,
   })
 }
 
-export default index
+export default smoothScroll

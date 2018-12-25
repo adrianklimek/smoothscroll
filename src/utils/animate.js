@@ -11,15 +11,15 @@ const easings = {
  * Animates number values using requestAnimationFrame
  *
  * @param {Object} opts
- * @param {Number} opts.start
- * @param {Number} opts.end
- * @param {Number} opts.duration
- * @param {Function, String} opts.easing an easing function or a name of one of the predefined ones
+ * @param {number} opts.start
+ * @param {number} opts.end
+ * @param {number} opts.duration
+ * @param {Function, string} opts.easing an easing function or a name of one of the predefined ones
  * @param {Function} opts.onUpdate a function that is called on every animation frame
  * @param {Function} opts.onComplete a function that is called at the end
- * @returns {Boolean}
+ * @returns {boolean}
  */
-const animate = ({ start, end, duration, easing, onUpdate, onComplete }) => {
+function animate({ start, end, duration, easing, onUpdate, onComplete }) {
   if (typeof onUpdate !== 'function') return false
 
   const easingFunc = typeof easing !== 'function'
@@ -37,7 +37,7 @@ const animate = ({ start, end, duration, easing, onUpdate, onComplete }) => {
     onUpdate(currentValue, animationProgress)
 
     if (elapsedTime <= duration) window.requestAnimationFrame(animationFrame)
-    else onComplete(currentValue, animationProgress)
+    else if (typeof onComplete === 'function') onComplete(currentValue, animationProgress)
   }
   window.requestAnimationFrame(animationFrame)
 

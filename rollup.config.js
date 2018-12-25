@@ -9,7 +9,7 @@ export default {
   output: {
     file: pkg.main,
     format: 'umd',
-    name: 'index',
+    name: 'smoothScroll',
     sourcemap: true,
   },
   plugins: [resolve(), commonjs(), babel(), uglify()],

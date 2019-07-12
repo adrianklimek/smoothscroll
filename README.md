@@ -1,4 +1,4 @@
-# smoothScroll.js
+# Smooth Scroll
 A lightweight JavaScript package form smooth scroll animation
 
 ## Installation

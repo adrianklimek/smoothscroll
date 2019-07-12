@@ -7,8 +7,8 @@
  */
 function getOffset(target, context = window) {
   const scrollPosition = {
-    left: context.pageXOffset || context.scrollLeft,
-    top: context.pageYOffset || context.scrollTop,
+    left: context === window ? context.pageXOffset : context.scrollLeft,
+    top: context === window ? context.pageYOffset : context.scrollTop,
   }
   const targetRect = target.getBoundingClientRect()
   const contextRect = typeof context.getBoundingClientRect === 'function'

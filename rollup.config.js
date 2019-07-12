@@ -4,13 +4,33 @@ import commonjs from 'rollup-plugin-commonjs'
 import { uglify } from 'rollup-plugin-uglify'
 import pkg from './package.json'
 
-export default {
-  input: './src/index.js',
-  output: {
-    file: pkg.main,
-    format: 'umd',
-    name: 'smoothScroll',
-    sourcemap: true,
+export default [
+  {
+    input: './src/index.js',
+    output: [
+      {
+        file: pkg.main,
+        format: 'umd',
+        name: 'smoothScroll',
+      },
+      {
+        file: pkg.module,
+        format: 'es',
+        name: 'smoothScroll',
+      },
+    ],
+    plugins: [resolve(), commonjs(), babel()],
   },
-  plugins: [resolve(), commonjs(), babel(), uglify()],
-}
+  {
+    input: './src/index.js',
+    output: [
+      {
+        file: 'dist/smooth-scroll.min.js',
+        format: 'umd',
+        name: 'smoothScroll',
+        sourceMap: true,
+      },
+    ],
+    plugins: [resolve(), commonjs(), babel(), uglify()],
+  },
+]

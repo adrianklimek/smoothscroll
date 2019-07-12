@@ -2,7 +2,8 @@
   "name": "smoothscrolljs",
   "version": "1.0.1",
   "description": "A lightweight JavaScript module to animate scrolling",
-  "main": "dist/smooth-scroll.min.js",
+  "main": "dist/smooth-scroll.js",
+  "module": "dist/smooth-scroll.esm.js",
   "scripts": {
     "test": "jest",
     "build": "BABEL_ENV=build rollup --config",

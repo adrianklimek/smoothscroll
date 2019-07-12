@@ -1,11 +1,11 @@
 # smoothScroll.js
-A lightweight JavaScript module to animate scrolling
+A lightweight JavaScript package form smooth scroll animation
 
 ## Installation
 
 ### Install with npm:
 ```
-npm install smoothscrolljs --save
+npm install smoothscrolljs
 ```
 
 ### Install with yarn:
@@ -36,4 +36,4 @@ smoothScroll(destinationEl)
 
 
 ## License
-smoothScroll.js is licensed under [MIT license](https://opensource.org/licenses/MIT).
+smoothscrolljs is licensed under [MIT license](https://opensource.org/licenses/MIT).

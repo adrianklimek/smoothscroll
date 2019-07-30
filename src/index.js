@@ -20,7 +20,7 @@ const setScrollPosition = (el, { top, left }) => {
 /**
  * Animates scroll
  *
- * @param {HTMLElement, number} destination position or a DOM element
+ * @param {HTMLElement, string, number} destination position or a DOM element
  * @param {Object} opts
  * @param {number} opts.duration
  * @param {Function, string} opts.easing function or name of one of predefined easing functions
@@ -43,8 +43,7 @@ function smoothScroll(destination, opts = {}) {
 
   const startPosition = getScrollPosition(context)
 
-  // Keep the same data structure for object and number value of `destination`
-  const destinationPosition = typeof destination === 'object'
+  const destinationPosition = typeof destination !== 'number'
     ? getOffset(destination, context)
     : { top: destination, left: destination }
 

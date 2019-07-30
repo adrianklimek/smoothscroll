@@ -17,14 +17,17 @@ yarn add smoothscrolljs
 ```
 import smoothScroll from 'smoothscrolljs'
 
-const destinationEl = document.querySelector('.scroll-to')
-smoothScroll(destinationEl)
+const el = document.querySelector('.scroll-to')
+
+smoothScroll(el)
+smoothScroll('.scroll-to')
+smoothScroll('.scroll-to', { duration: 1000, offset: -50 })
 ```
 
 ### Parameters
 | Name | Description | Type | Default |
 | ---- | ----------- | ---- | ------- |
-| destination | DOM element to scroll to or a position | HTMLElement, Number | - |
+| destination | DOM element, selector or a position | HTMLElement, String, Number | - |
 | opts | - | Object | - |
 | opts.duration | - | Number | 600 |
 | opts.easing | function or name of one of predefined easing functions ('linear', 'easeIn', 'easeOut', 'easeInOut') | Function, String | 'easeInOut' |

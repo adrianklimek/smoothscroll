@@ -1,6 +1,6 @@
 {
   "name": "smoothscrolljs",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A lightweight JavaScript package for smooth scroll animation",
   "main": "dist/smooth-scroll.js",
   "module": "dist/smooth-scroll.esm.js",

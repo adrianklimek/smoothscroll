@@ -1,3 +1,17 @@
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
 /* eslint-disable */
 var easings = {
   linear: function linear(t) {
@@ -56,20 +70,18 @@ function animate(_ref) {
 /**
  * Gets offset of an element
  *
- * @param {HTMLElement, string} target
+ * @param {HTMLElement} target
  * @param {Object} context
  * @returns {Object} top and left offset
  */
 function getOffset(target) {
   var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window;
-  var isWindow = context === window;
-  var targetEl = typeof target === 'string' ? document.querySelector(target) : target;
   var scrollPosition = {
-    left: isWindow ? context.pageXOffset : context.scrollLeft,
-    top: isWindow ? context.pageYOffset : context.scrollTop
+    left: context === window ? context.pageXOffset : context.scrollLeft,
+    top: context === window ? context.pageYOffset : context.scrollTop
   };
-  var targetRect = targetEl.getBoundingClientRect();
-  var contextRect = !isWindow ? context.getBoundingClientRect() : {
+  var targetRect = target.getBoundingClientRect();
+  var contextRect = typeof context.getBoundingClientRect === 'function' ? context.getBoundingClientRect() : {
     left: 0,
     top: 0
   };
@@ -102,7 +114,7 @@ var setScrollPosition = function setScrollPosition(el, _ref) {
 /**
  * Animates scroll
  *
- * @param {HTMLElement, string, number} destination position or a DOM element
+ * @param {HTMLElement, number} destination position or a DOM element
  * @param {Object} opts
  * @param {number} opts.duration
  * @param {Function, string} opts.easing function or name of one of predefined easing functions
@@ -130,8 +142,9 @@ function smoothScroll(destination) {
       onUpdate = _opts$onUpdate === void 0 ? function () {} : _opts$onUpdate,
       _opts$onComplete = opts.onComplete,
       onComplete = _opts$onComplete === void 0 ? function () {} : _opts$onComplete;
-  var startPosition = getScrollPosition(context);
-  var destinationPosition = typeof destination !== 'number' ? getOffset(destination, context) : {
+  var startPosition = getScrollPosition(context); // Keep the same data structure for object and number value of `destination`
+
+  var destinationPosition = _typeof(destination) === 'object' ? getOffset(destination, context) : {
     top: destination,
     left: destination
   };

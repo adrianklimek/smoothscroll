@@ -18,6 +18,10 @@
   "bugs": {
     "url": "https://github.com/adrianklimek/smoothscroll/issues"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "homepage": "https://github.com/adrianklimek/smoothscroll",
   "author": "Adrian Klimek",
   "license": "MIT",
